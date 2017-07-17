@@ -148,8 +148,9 @@ coreos:
       content: |
         [Unit]
         Description=Overwrite kubernetes manifests. This service read kubernetes-master.env and certificate in /etc/kubernetes/ssl
-        After=restart-network.service
+        After=restart-network.service network-online.target
         Before=kubelet.service
+        Wants=network-online.target
 
         [Service]
         Type=oneshot
@@ -182,7 +183,8 @@ coreos:
       content: |
         [Unit]
         Description=Install cni (container networking) & kubectl
-        After=restart-network.service
+        After=restart-network.service network-online.target
+        Wants=network-online.target
 
         [Service]
         Type=oneshot
